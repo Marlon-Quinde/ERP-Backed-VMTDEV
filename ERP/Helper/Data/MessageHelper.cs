@@ -8,6 +8,10 @@
 
         public readonly static string errorDB = "Ocurrio un error con la conexión a la BD";
 
+        public readonly static string profileChangePasswordSuccess = "La contraseña se cambio con éxito";
+        public readonly static string profileChangePasswordErrorNotEqualsOldPassword = "La contraseña ingresada no coincide con la anterior";
+        public readonly static string profileChangePasswordErrorNotEqualsPass = "Las nuevas contraseñas no son iguales";
+        public readonly static string profileChangeNameUserSuccess = "Se cambio el nombre del usuario";
 
         public readonly static string encryptError = "Ocurrio un error al codificar el texto";
         public readonly static string desencryptError = "Ocurrio un error al decodificar el texto";

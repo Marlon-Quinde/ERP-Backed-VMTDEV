@@ -23,7 +23,7 @@ namespace ERP.Filters
                 }
                 else
                 {
-                    next();
+                    await next();
                 }
             } catch (Exception ex)
             {
