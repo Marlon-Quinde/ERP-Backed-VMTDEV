@@ -1,4 +1,6 @@
 ﻿using ERP.Helper.Models;
+using HelperGeneral.Models;
+using HelperGeneral.Helper;
 using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 
@@ -21,13 +23,28 @@ namespace ERP.Helper.Helper
         public ResponseGeneralModel<T> EncryptDataByMethod(string method, string text)
         {
             DataEncryptModel modelEncrypt = GetDataEncrypt(method);
-            return AES256Encryption<T>.Encrypt(text, modelEncrypt.key, modelEncrypt.iv);
+            ResponseData<string> response = AES256Encryption.Encrypt(text, modelEncrypt.key, modelEncrypt.iv);
+            if(response.isTrue)
+            {
+                return new ResponseGeneralModel<T>(200, response.data);
+            } else
+            {
+                return new ResponseGeneralModel<T>(response.message, response.error, 500);
+            }
         }
 
         public ResponseGeneralModel<T> DesencryptDataByMethod(string method, string text)
         {
             DataEncryptModel modelEncrypt = GetDataEncrypt(method);
-            return AES256Encryption<T>.Decrypt(text, modelEncrypt.key, modelEncrypt.iv);
+            ResponseData<string> response = AES256Encryption.Decrypt(text, modelEncrypt.key, modelEncrypt.iv);
+            if (response.isTrue)
+            {
+                return new ResponseGeneralModel<T>(200, response.data);
+            }
+            else
+            {
+                return new ResponseGeneralModel<T>(response.message, response.error, 500);
+            }
         }
 
         public static ResponseGeneralModel<T> EncryptPassUser(string text)

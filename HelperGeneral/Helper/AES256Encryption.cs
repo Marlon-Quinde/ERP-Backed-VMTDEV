@@ -1,14 +1,14 @@
-﻿using ERP.Helper.Data;
-using ERP.Helper.Models;
+﻿using HelperGeneral.Data;
+using HelperGeneral.Models;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace ERP.Helper.Helper
+namespace HelperGeneral.Helper
 {
-    public class AES256Encryption<T>
+    public class AES256Encryption
     {
         // Encriptar el texto usando AES-256
-        public static ResponseGeneralModel<T> Encrypt(string plainText, string key, string iv)
+        public static ResponseData<string> Encrypt(string plainText, string key, string iv)
         {
             try
             {
@@ -29,19 +29,19 @@ namespace ERP.Helper.Helper
                                 }
                             }
                             //return Convert.ToBase64String(ms.ToArray());
-                            return new ResponseGeneralModel<T>(200, Convert.ToBase64String(ms.ToArray()));
+                            return new ResponseData<string>(Convert.ToBase64String(ms.ToArray()));
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                return new ResponseGeneralModel<T>(MessageHelper.encryptError, ex.ToString());
+                return new ResponseData<string>(MessageHelper.encryptError, ex.ToString());
             }
         }
 
         // Desencriptar el texto cifrado usando AES-256
-        public static ResponseGeneralModel<T> Decrypt(string cipherText, string key, string iv)
+        public static ResponseData<string> Decrypt(string cipherText, string key, string iv)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace ERP.Helper.Helper
                                 using (StreamReader sr = new StreamReader(cs))
                                 {
                                     //return sr.ReadToEnd();
-                                    return new ResponseGeneralModel<T>(200, sr.ReadToEnd());
+                                    return new ResponseData<string>(sr.ReadToEnd());
                                 }
                             }
                         }
@@ -68,7 +68,7 @@ namespace ERP.Helper.Helper
             }
             catch (Exception ex)
             {
-                return new ResponseGeneralModel<T>(MessageHelper.desencryptError, ex.ToString());
+                return new ResponseData<string>(MessageHelper.desencryptError, ex.ToString());
             }
         }
     }
