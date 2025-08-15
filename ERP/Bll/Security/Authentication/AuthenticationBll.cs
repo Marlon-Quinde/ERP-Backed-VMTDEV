@@ -3,6 +3,7 @@ using ERP.Helper.Data;
 using ERP.Helper.Helper;
 using ERP.Helper.Models;
 using ERP.Models.Security.Authentication;
+using Newtonsoft.Json;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace ERP.Bll.Security.Authentication
@@ -10,8 +11,10 @@ namespace ERP.Bll.Security.Authentication
     public class AuthenticationBll : IAuthenticationBll
     {
         BaseErpContext _context;
-        public AuthenticationBll(BaseErpContext context) {
+        IConfiguration _configuration;
+        public AuthenticationBll(BaseErpContext context, IConfiguration configuration) {
             _context = context;
+            _configuration = configuration;
         }
 
         public ResponseGeneralModel<LoginResponseModel?> Login(LoginRequestModel requestModel)
@@ -84,6 +87,15 @@ namespace ERP.Bll.Security.Authentication
 
             _context.Usuarios.Add(userModel);
             _context.SaveChanges();
+
+            ExternalServiceHelper extSerH = new ExternalServiceHelper();
+            SmtpSendRequestModel smtpObjEmail = new SmtpSendRequestModel()
+            {
+                To = "jmoran@viamatica.com",
+                Subject = "Creacion de usuario",
+                Body = (new TemplateHtmlHelper()).EmailCreateUser(requestModel.name, requestModel.email)
+            };
+            extSerH.PostServiceExternal(_configuration.GetSection("services").GetValue<string>("smtp"), jsonData: smtpObjEmail.ToJson());
 
             return new ResponseGeneralModel<bool>(200, true, "");
         }

@@ -16,7 +16,7 @@ namespace SMTP_api.Controllers
         [HttpPost("Send")]
         public ResponseData<string> Send([FromBody] SendMailRequest requestModel)
         {
-            return (new SmtpHelper()).SendMail(requestModel.subject, requestModel.body, [requestModel.to]);
+            return (new SmtpHelper()).SendMail(requestModel.subject, requestModel.body, [requestModel.to], listFiles: requestModel.files);
         }
     }
 }

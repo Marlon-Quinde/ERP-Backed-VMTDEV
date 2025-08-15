@@ -1,4 +1,5 @@
 ﻿using HelperGeneral.Models;
+using SMTP_api.Models.Mail;
 using System.Net;
 using System.Net.Mail;
 
@@ -31,7 +32,7 @@ namespace SMTP_api.Helper.Helper
             List<string> to,
             List<string>? cc = null,
             List<string>? bcc = null,
-            List<Attachment>? listFiles = null
+            List<SendMailRequest_File>? listFiles = null
         )
         {
             try
@@ -56,11 +57,22 @@ namespace SMTP_api.Helper.Helper
 
                 message.Subject = subject;
                 message.Body = body;
+                message.IsBodyHtml = true;
 
 
-                foreach (Attachment attachment in listFiles ?? [])
+                foreach (SendMailRequest_File item in listFiles ?? [])
                 {
-                    message.Attachments.Add(attachment);
+                    byte[] bytes = Convert.FromBase64String(item.base64);
+
+                    Stream stream = new MemoryStream(bytes);
+                    /*using (Stream stream = new MemoryStream(bytes))
+                    {*/
+                        message.Attachments.Add(new Attachment(
+                            contentStream: stream,
+                            name: item.name,
+                            mediaType: item.typeFile
+                        ));
+                    //}
                 }
 
                 SmtpClient smtpClient = new SmtpClient(_domain)
