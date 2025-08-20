@@ -90,5 +90,15 @@ namespace ERP.Helper.Helper
 
             return JWTG.DeserializeJwt(token);
         }
+
+        public static ResponseGeneralModel<T> TransFormResultHelperDll(ResponseData<T> data)
+        {
+            return new ResponseGeneralModel<T>(
+                data.isTrue ? 200 : 500,
+                data.data,
+                data.message,
+                data.error
+            );
+        }
     }
 }

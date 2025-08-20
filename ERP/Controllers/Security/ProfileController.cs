@@ -1,10 +1,12 @@
 ﻿using ERP.Bll.Security.Profile;
 using ERP.Filters;
 using ERP.Helper.Data;
+using ERP.Helper.Helper;
 using ERP.Helper.Models;
 using ERP.Models.Security.Authentication;
 using ERP.Models.Security.Profile;
 using ERP.Validate.Security;
+using HelperGeneral.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -43,8 +45,8 @@ namespace ERP.Controllers.Security
             try
             {
                 ProfileValidate profileV = new ProfileValidate();
-                ResponseGeneralModel<string?> respVal = profileV.ChangePasswordUser(requestModel);
-                if (respVal.code != 200) return respVal;
+                ResponseData<string?> respVal = profileV.ChangePasswordUser(requestModel);
+                if (respVal.isTrue) return MethodsHelper<string?>.TransFormResultHelperDll(respVal);
 
                 return bll.ChangePasswordUser(requestModel);
             } catch (Exception ex)
@@ -60,8 +62,8 @@ namespace ERP.Controllers.Security
             try
             {
                 ProfileValidate profileV = new ProfileValidate();
-                ResponseGeneralModel<string?> respVal = profileV.ChangeNameUser(requestModel);
-                if (respVal.code != 200) return respVal;
+                ResponseData<string?> respVal = profileV.ChangeNameUser(requestModel);
+                if (respVal.isTrue) return MethodsHelper<string?>.TransFormResultHelperDll(respVal);
 
                 return bll.ChangeNameUser(requestModel);
             }

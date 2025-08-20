@@ -1,29 +1,30 @@
-﻿using Ejercicio_estructurado.Helpers;
-using Ejercicio_estructurado.Helpers.Vars;
-using ERP.Helper.Data;
-using ERP.Helper.Models;
-using Microsoft.AspNetCore.Razor.TagHelpers;
+﻿using HelperGeneral.Data;
+using HelperGeneral.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
-namespace Ejercicio_estructurado.Helpers.Helper
+namespace HelperGeneral.Helper
 {
     public class ValidateHelper<T>
     {
-
-        public ResponseGeneralModel<T> ValidResp(string Value, string Name, int? Max = null, int? Min = null, List<string>? ListRegExp = null, string? MsjMinV = null, string? MsjMaxV = null, List<string>? ListMsjRegExp = null)
+        public ResponseData<T> ValidResp(string Value, string Name, int? Max = null, int? Min = null, List<string>? ListRegExp = null, string? MsjMinV = null, string? MsjMaxV = null, List<string>? ListMsjRegExp = null)
         {
             if (Max != null)
             {
-                if (!MaxLength(Value, Max ?? 0)) return new ResponseGeneralModel<T>(
+                if (!MaxLength(Value, Max ?? 0)) return new ResponseData<T>(
                     MessageHelper.errorParamsGeneral,
                     MsjMaxV ?? "El parametro '" + Name + "' excede el límite de " + Max + " caracteres"
                 );
             }
             if (Min != null)
             {
-                if (!MinLength(Value, Min ?? 0)) return new ResponseGeneralModel<T>(
+                if (!MinLength(Value, Min ?? 0)) return new ResponseData<T>(
                     MessageHelper.errorParamsGeneral,
-                    MsjMinV ?? "El parametro '" + Name + "' debe tener un mínimo de " + Min + " caracteres"
+                    MsjMinV ?? "La longitud del parametro '" + Name + "' debe ser mayor a " + Min + " caracteres"
                 );
             }
 
@@ -34,7 +35,7 @@ namespace Ejercicio_estructurado.Helpers.Helper
                     if (!RegExpVald(Value, ListRegExp[i]))
                     {
                         bool isMsjPers = ListMsjRegExp != null ? ListMsjRegExp.Count >= (i - 1) : false;
-                        return new ResponseGeneralModel<T>(
+                        return new ResponseData<T>(
                             MessageHelper.errorParamsGeneral,
                             isMsjPers ? ListMsjRegExp[i] : "El parametro '" + Name + "' no cumple con la expresión regular " + ListRegExp[i]
                         );
@@ -43,7 +44,7 @@ namespace Ejercicio_estructurado.Helpers.Helper
             }
 
 
-            return new ResponseGeneralModel<T>(200, "");
+            return new ResponseData<T>();
         }
 
         bool MaxLength(string Value, int Max)

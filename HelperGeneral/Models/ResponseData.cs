@@ -13,6 +13,14 @@ namespace HelperGeneral.Models
         public string message { get; set; }
         public string error { get; set; }
 
+        public ResponseData()
+        {
+            isTrue = true;
+            this.data = default;
+            message = string.Empty;
+            error = string.Empty;
+        }
+
         public ResponseData(T data)
         {
             isTrue = true;
