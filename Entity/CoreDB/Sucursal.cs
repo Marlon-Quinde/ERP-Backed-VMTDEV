@@ -34,4 +34,6 @@ public partial class Sucursal
     public virtual ICollection<MovimientoCab> MovimientoCabs { get; set; } = new List<MovimientoCab>();
 
     public virtual ICollection<PuntoEmisionSri> PuntoEmisionSris { get; set; } = new List<PuntoEmisionSri>();
+
+    public virtual ICollection<PuntoVentum> PuntoVenta { get; set; } = new List<PuntoVentum>();
 }

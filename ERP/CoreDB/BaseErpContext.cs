@@ -701,10 +701,13 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<PuntoVentum>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("PUNTO_VENTA");
+            entity.HasKey(e => e.PuntovtaId);
 
+            entity.ToTable("PUNTO_VENTA");
+
+            entity.Property(e => e.PuntovtaId)
+                .ValueGeneratedNever()
+                .HasColumnName("puntovta_id");
             entity.Property(e => e.Estado).HasColumnName("estado");
             entity.Property(e => e.FechaHoraAct)
                 .HasColumnType("datetime")
@@ -713,7 +716,6 @@ public partial class BaseErpContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("fecha_hora_reg");
             entity.Property(e => e.PuntoEmisionId).HasColumnName("punto_emision_id");
-            entity.Property(e => e.PuntovtaId).HasColumnName("puntovta_id");
             entity.Property(e => e.PuntovtaNombre)
                 .HasMaxLength(30)
                 .IsUnicode(false)
@@ -722,12 +724,12 @@ public partial class BaseErpContext : DbContext
             entity.Property(e => e.UsuIdAct).HasColumnName("usu_id_act");
             entity.Property(e => e.UsuIdReg).HasColumnName("usu_id_reg");
 
-            entity.HasOne(d => d.Puntovta).WithMany()
-                .HasForeignKey(d => d.PuntovtaId)
+            entity.HasOne(d => d.Puntovta).WithOne(p => p.PuntoVentum)
+                .HasForeignKey<PuntoVentum>(d => d.PuntovtaId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PUNTO_VENTA_PUNTO_EMISION_SRI");
 
-            entity.HasOne(d => d.Sucursal).WithMany()
+            entity.HasOne(d => d.Sucursal).WithMany(p => p.PuntoVenta)
                 .HasForeignKey(d => d.SucursalId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("fk_puntovta_sucursal");

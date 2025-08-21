@@ -29,5 +29,7 @@ public partial class PuntoEmisionSri
 
     public virtual Empresa? Empresa { get; set; }
 
+    public virtual PuntoVentum? PuntoVentum { get; set; }
+
     public virtual Sucursal? Sucursal { get; set; }
 }

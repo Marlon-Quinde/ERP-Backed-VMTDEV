@@ -1,8 +1,10 @@
+using ERP.Bll.Invoice;
 using ERP.Bll.Security.Authentication;
 using ERP.Bll.Security.Profile;
 using ERP.Bll.User;
 using ERP.CoreDB;
 using ERP.Filters;
+using ERP.Helper.Helper.TemplateView;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,14 +22,19 @@ builder.Services.AddDbContext<BaseErpContext>(options =>
     options.UseSqlServer(builder.Configuration.GetSection("ConnectionDB").Get<string>());
 });
 // :: Interfaces - aplicativo (inicio)
+// Aplicativo
+builder.Services.AddScoped<ITemplateViewHelper, TemplateViewHelper>();
 // Bll
 builder.Services.AddScoped<IAuthenticationBll, AuthenticationBll>();
 builder.Services.AddScoped<IProfileBll, ProfileBll>();
 builder.Services.AddScoped<IUserBll, UserBll>();
+builder.Services.AddScoped<IInvoiceBll, InvoiceBll>();
 // :: Interfaces - aplicativo (fin)
 
 
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddControllersWithViews();
 
 // Filter
 builder.Services.AddScoped<SessionUserFilter>();

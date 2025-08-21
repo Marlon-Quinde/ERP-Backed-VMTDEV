@@ -24,5 +24,12 @@ namespace PdfMicroService.Controllers
         {
             return _pdfBll.CreatePdf(request);
         }
+
+        [HttpPost("ShowPdf")]
+        public async Task<IActionResult> ShowPdf([FromBody] CreatePdfRequest request)
+        {
+            byte[] fileByte = _pdfBll.CreatePdf(request);
+            return File(fileByte, "application/pdf", "archivo.pdf");
+        }
     }
 }
