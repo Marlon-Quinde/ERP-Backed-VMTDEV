@@ -1,4 +1,7 @@
 ﻿using ERP.Bll.Invoice;
+using ERP.Filters;
+using ERP.Helper.Models;
+using ERP.Models.Invoice;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -8,6 +11,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 namespace ERP.Controllers
 {
     [Route("api/[controller]")]
+    [ServiceFilter(typeof(SessionUserFilter))]
     [ApiController]
     public class InvoiceController : ControllerBase
     {
@@ -24,7 +28,7 @@ namespace ERP.Controllers
 
         // POST api/<InvoiceController>
         [HttpPost("CreateInvoice")]
-        public Task<string> CreateInvoice([FromBody] string value)
+        public Task<ResponseGeneralModel<string?>> CreateInvoice([FromBody] InvoiceRequestModel requestM)
         {
             //    HttpContext httpC = HttpContext;
 
@@ -35,7 +39,7 @@ namespace ERP.Controllers
             //    );
 
             //    ViewEngineResult vResult = _viewEngine.FindView(actionC, "Prueba", false);
-            return _bll.CreateInvoice(value);
+            return _bll.CreateInvoice(requestM);
         }
     }
 }

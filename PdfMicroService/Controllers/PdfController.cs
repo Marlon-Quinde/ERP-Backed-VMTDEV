@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using HelperGeneral.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using PdfMicroService.Bll;
 using PdfMicroService.Models;
@@ -19,8 +20,8 @@ namespace PdfMicroService.Controllers
         }
 
         // POST api/<PdfController>
-        [HttpPost("CreatePDf")]
-        public byte[] CreatePDf([FromBody] CreatePdfRequest request)
+        [HttpPost("CreatePdf")]
+        public ResponseData<string?> CreatePDf([FromBody] CreatePdfRequest request)
         {
             return _pdfBll.CreatePdf(request);
         }
@@ -28,7 +29,7 @@ namespace PdfMicroService.Controllers
         [HttpPost("ShowPdf")]
         public async Task<IActionResult> ShowPdf([FromBody] CreatePdfRequest request)
         {
-            byte[] fileByte = _pdfBll.CreatePdf(request);
+            byte[] fileByte = _pdfBll.CreatePdf2(request);
             return File(fileByte, "application/pdf", "archivo.pdf");
         }
     }
