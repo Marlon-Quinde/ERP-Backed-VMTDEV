@@ -2,6 +2,7 @@
 using ERP.Helper.Data;
 using ERP.Helper.Helper;
 using ERP.Helper.Models;
+using ERP.Helper.Models.WorkerProcess;
 using ERP.Models.Security.Authentication;
 using Newtonsoft.Json;
 using static System.Net.Mime.MediaTypeNames;
@@ -49,6 +50,7 @@ namespace ERP.Bll.Security.Authentication
             {
                 return new ResponseGeneralModel<LoginResponseModel?>(404, null, MessageHelper.loginIncorrect);
             }
+            int tmpI = int.Parse("a");
 
             SessionModel sessionModel = new SessionModel(dataUs.us.UsuId, dataUs.us.UsuNombre);
 
@@ -88,12 +90,22 @@ namespace ERP.Bll.Security.Authentication
             _context.Usuarios.Add(userModel);
             _context.SaveChanges();
 
+
+            string bodyMail = (new TemplateHtmlHelper()).EmailCreateUser(requestModel.name, requestModel.email);
+
+            (new MongoMethods<WorkerProcessMailModel>()).SaveProcessMail(new Helper.Models.WorkerProcess.WorkerProcessMailModel()
+            {
+                to = "jmoran@viamatica.com",
+                subject = "Creacion de usuario",
+                body = bodyMail,
+            });
+
             ExternalServiceHelper extSerH = new ExternalServiceHelper();
             SmtpSendRequestModel smtpObjEmail = new SmtpSendRequestModel()
             {
                 To = "jmoran@viamatica.com",
                 Subject = "Creacion de usuario",
-                Body = (new TemplateHtmlHelper()).EmailCreateUser(requestModel.name, requestModel.email)
+                Body = bodyMail
             };
             extSerH.PostServiceExternal(_configuration.GetSection("services").GetValue<string>("smtp"), jsonData: smtpObjEmail.ToJson());
 

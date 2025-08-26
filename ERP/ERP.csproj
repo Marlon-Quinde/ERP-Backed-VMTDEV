@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HelperGeneral\HelperGeneral.csproj" />
+    <ProjectReference Include="..\MongoLibrary\MongoLibrary.csproj" />
   </ItemGroup>
 
 </Project>

@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMTP_api", "SMTP_api\SMTP_a
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfMicroService", "PdfMicroService\PdfMicroService.csproj", "{86945B7A-6FC6-43AF-989F-AD02D11979B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoLibrary", "MongoLibrary\MongoLibrary.csproj", "{0907379F-50C4-45C4-9C7C-27843FC57B16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{86945B7A-6FC6-43AF-989F-AD02D11979B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86945B7A-6FC6-43AF-989F-AD02D11979B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86945B7A-6FC6-43AF-989F-AD02D11979B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0907379F-50C4-45C4-9C7C-27843FC57B16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0907379F-50C4-45C4-9C7C-27843FC57B16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0907379F-50C4-45C4-9C7C-27843FC57B16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0907379F-50C4-45C4-9C7C-27843FC57B16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
