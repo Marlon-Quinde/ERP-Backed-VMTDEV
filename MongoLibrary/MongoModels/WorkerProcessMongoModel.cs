@@ -16,5 +16,7 @@ namespace MongoLibrary.MongoModels
         public string process { get; set; }
         [BsonElement("DateTime")]
         public DateTime dateT { get; set; }
+        [BsonElement("DateTimeProcess")]
+        public DateTime? dateP { get; set; }
     }
 }

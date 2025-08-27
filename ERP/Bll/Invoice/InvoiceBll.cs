@@ -3,6 +3,7 @@ using ERP.Helper.Helper;
 using ERP.Helper.Helper.TemplateView;
 using ERP.Helper.Models;
 using ERP.Helper.Models.Views.Pdf;
+using ERP.Helper.Models.WorkerProcess;
 using ERP.Models.Invoice;
 using ERP.Models.Security.Profile;
 using Newtonsoft.Json;
@@ -88,7 +89,24 @@ namespace ERP.Bll.Invoice
             if (!respPdfServ.IsTrue) return new ResponseGeneralModel<string?>(500, respPdfServ.Message);
 
 
-            SmtpSendRequestModel smtpObjEmail = new SmtpSendRequestModel()
+            // Process Mongo
+            /*(new MongoMethods<WorkerProcessMailModel>()).SaveProcessMail(new Helper.Models.WorkerProcess.WorkerProcessMailModel()
+            {
+                to = "jmoran@viamatica.com",
+                subject = "Project Invoice SMTP",
+                body = "Factura creada",
+                file = new List<SmtpSendRequestModel_File>()
+                {
+                    new SmtpSendRequestModel_File()
+                    {
+                        Name = "Factura.pdf",
+                        TypeFile = "application/pdf",
+                        Base64 = respPdfServ.Data
+                    }
+                }
+            });
+            */
+            (new MongoMethods<WorkerProcessMailModel>()).SaveProcessMail(new SmtpSendRequestModel()
             {
                 To = "jmoran@viamatica.com",
                 Subject = "Project Invoice SMTP",
@@ -102,8 +120,26 @@ namespace ERP.Bll.Invoice
                         Base64 = respPdfServ.Data
                     }
                 }
-            };
-            extSerH.PostServiceExternal(_configuration.GetSection("services").GetValue<string>("smtp"), jsonData: smtpObjEmail.ToJson());
+            });
+            // .......
+
+
+            //SmtpSendRequestModel smtpObjEmail = new SmtpSendRequestModel()
+            //{
+            //    To = "jmoran@viamatica.com",
+            //    Subject = "Project Invoice SMTP",
+            //    Body = "Factura creada",
+            //    Files = new List<SmtpSendRequestModel_File>()
+            //    {
+            //        new SmtpSendRequestModel_File()
+            //        {
+            //            Name = "Factura.pdf",
+            //            TypeFile = "application/pdf",
+            //            Base64 = respPdfServ.Data
+            //        }
+            //    }
+            //};
+            //extSerH.PostServiceExternal(_configuration.GetSection("services").GetValue<string>("smtp"), jsonData: smtpObjEmail.ToJson());
 
             return new ResponseGeneralModel<string?>(200, renderPdf, "");
         }

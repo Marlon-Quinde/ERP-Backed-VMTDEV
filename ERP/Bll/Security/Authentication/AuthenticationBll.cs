@@ -50,7 +50,6 @@ namespace ERP.Bll.Security.Authentication
             {
                 return new ResponseGeneralModel<LoginResponseModel?>(404, null, MessageHelper.loginIncorrect);
             }
-            int tmpI = int.Parse("a");
 
             SessionModel sessionModel = new SessionModel(dataUs.us.UsuId, dataUs.us.UsuNombre);
 
@@ -93,21 +92,21 @@ namespace ERP.Bll.Security.Authentication
 
             string bodyMail = (new TemplateHtmlHelper()).EmailCreateUser(requestModel.name, requestModel.email);
 
-            (new MongoMethods<WorkerProcessMailModel>()).SaveProcessMail(new Helper.Models.WorkerProcess.WorkerProcessMailModel()
-            {
-                to = "jmoran@viamatica.com",
-                subject = "Creacion de usuario",
-                body = bodyMail,
-            });
-
-            ExternalServiceHelper extSerH = new ExternalServiceHelper();
-            SmtpSendRequestModel smtpObjEmail = new SmtpSendRequestModel()
+            (new MongoMethods<WorkerProcessMailModel>()).SaveProcessMail(new SmtpSendRequestModel()
             {
                 To = "jmoran@viamatica.com",
                 Subject = "Creacion de usuario",
-                Body = bodyMail
-            };
-            extSerH.PostServiceExternal(_configuration.GetSection("services").GetValue<string>("smtp"), jsonData: smtpObjEmail.ToJson());
+                Body = bodyMail,
+            });
+
+            //ExternalServiceHelper extSerH = new ExternalServiceHelper();
+            //SmtpSendRequestModel smtpObjEmail = new SmtpSendRequestModel()
+            //{
+            //    To = "jmoran@viamatica.com",
+            //    Subject = "Creacion de usuario",
+            //    Body = bodyMail
+            //};
+            //extSerH.PostServiceExternal(_configuration.GetSection("services").GetValue<string>("smtp"), jsonData: smtpObjEmail.ToJson());
 
             return new ResponseGeneralModel<bool>(200, true, "");
         }

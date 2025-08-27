@@ -52,10 +52,25 @@ namespace MongoLibrary.Helper
             _collectWorkerProcess.InsertOne(processMongoModel);
         }
 
-        public WorkerProcessMongoModel GetFirstWorkerPRocess()
+        public WorkerProcessMongoModel? GetFirstWorkerProcess()
         {
-            var filter = Builders<WorkerProcessMongoModel>.Filter.Where(x => x.dateT < DateTime.Now.AddSeconds(-5));
-            return _collectWorkerProcess.Find(filter).First();
+            var filter = Builders<WorkerProcessMongoModel>.Filter.Where(x => x.dateP == null || x.dateP < DateTime.Now.AddSeconds(-15) );
+            var returnD = _collectWorkerProcess.Find(filter).FirstOrDefault();
+            if (returnD == null) return null;
+
+
+            var upd = Builders<WorkerProcessMongoModel>.Update.Set(x => x.dateP, DateTime.Now);
+            _collectWorkerProcess.UpdateOne(Builders<WorkerProcessMongoModel>.Filter.Eq(x => x.id, returnD.id), upd);
+
+
+            return returnD;
+        }
+
+        public void DeleteWorkerProcess(string id)
+        {
+            var filter = Builders<WorkerProcessMongoModel>.Filter.Eq(x => x.id, id);
+
+            _collectWorkerProcess.FindOneAndDelete(filter);
         }
     }
 }

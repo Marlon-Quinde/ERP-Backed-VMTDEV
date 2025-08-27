@@ -31,7 +31,7 @@ namespace ERP.Helper.Helper
                 return new ResponseGeneralModel<string>(200, temp, "");
             } catch (Exception ex)
             {
-                return new ResponseGeneralModel<string>(500, "Error al generar el pdf");
+                return new ResponseGeneralModel<string>(500, "", "Error al generar el pdf", ex.ToString());
             }
         }
     }
