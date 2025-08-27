@@ -25,28 +25,24 @@ namespace ERP.Helper.Models
 
         [JsonProperty("body")]
         public string Body { get; set; }
+        [JsonProperty("files")]
+        public List<SmtpSendRequestModel_File> Files { get; set; }
+    }
+
+    public partial class SmtpSendRequestModel_File
+    {
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("typeFile")]
+        public string TypeFile { get; set; }
+
+        [JsonProperty("base64")]
+        public string Base64 { get; set; }
     }
 
     public partial class SmtpSendRequestModel
     {
         public static SmtpSendRequestModel FromJson(string json) => JsonConvert.DeserializeObject<SmtpSendRequestModel>(json, ERP.Helper.Models.Converter.Settings);
-    }
-
-    public static class Serialize
-    {
-        public static string ToJson(this SmtpSendRequestModel self) => JsonConvert.SerializeObject(self, ERP.Helper.Models.Converter.Settings);
-    }
-
-    internal static class Converter
-    {
-        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
-        {
-            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-            DateParseHandling = DateParseHandling.None,
-            Converters =
-            {
-                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
-            },
-        };
     }
 }

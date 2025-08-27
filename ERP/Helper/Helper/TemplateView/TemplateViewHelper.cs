@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System.Text.RegularExpressions;
 
 namespace ERP.Helper.Helper.TemplateView
 {
@@ -56,7 +57,9 @@ namespace ERP.Helper.Helper.TemplateView
 
                 await vResult.View.RenderAsync(viewC);
 
-                return sw.ToString();
+                //return sw.ToString().Replace(@"\r\n", "");
+                string dataResp = sw.ToString();
+                return Regex.Replace(dataResp, @"\s*\r\n\s*", "");
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using ERP.Helper.Helper;
+using System.Diagnostics;
 
 namespace ERP.Helper.Models
 {
@@ -24,6 +25,7 @@ namespace ERP.Helper.Models
             {
                 this.messageDev = messageDev;
             }
+            SaveLog(messageDev);
         }
 
         public ResponseGeneralModel(string message, string messageDev)
@@ -35,6 +37,7 @@ namespace ERP.Helper.Models
             {
                 this.messageDev = messageDev;
             }
+            SaveLog(messageDev);
         }
 
         public ResponseGeneralModel(int code, T data, string message)
@@ -53,6 +56,21 @@ namespace ERP.Helper.Models
             {
                 this.messageDev = messageDev;
             }
+            SaveLog(messageDev);
+        }
+
+
+        private void SaveLog(string ex)
+        {
+            MongoMethods<T> mongoM = new MongoMethods<T>();
+            mongoM.SaveLog(new MongoLibrary.Models.LogModel()
+            {
+                isError = true,
+                data = new
+                {
+                    message = ex,
+                }
+            });
         }
     }
 }

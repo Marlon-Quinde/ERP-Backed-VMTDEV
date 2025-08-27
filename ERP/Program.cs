@@ -15,6 +15,7 @@ using ERP.Bll.UserRole;
 using ERP.CoreDB;
 using ERP.Filters;
 using ERP.Helper.Helper.TemplateView;
+using ERP.WorkerService;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -59,6 +60,8 @@ builder.Services.AddControllersWithViews();
 
 // Filter
 builder.Services.AddScoped<SessionUserFilter>();
+
+builder.Services.AddHostedService<ProcessWorkerService>();
 
 var app = builder.Build();
 

@@ -108,5 +108,12 @@ namespace ERP.Helper.Helper
                 data.error
             );
         }
+
+        public MongoLibrary.Helper.MongoHelper ConnectionMongo()
+        {
+            IConfigurationSection mongoC = GetConfiguration().GetSection("mongo");
+            MongoLibrary.Helper.MongoHelper mongoDB = new MongoLibrary.Helper.MongoHelper(mongoC.GetValue<string>("connection"), mongoC.GetValue<string>("dataBase"));
+            return mongoDB;
+        }
     }
 }

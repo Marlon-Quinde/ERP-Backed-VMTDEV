@@ -1,11 +1,12 @@
-﻿using System.Text;
+﻿using ERP.Helper.Models;
+using System.Text;
 
 namespace ERP.Helper.Helper
 {
     public class ExternalServiceHelper
     {
 
-        public async void PostServiceExternal(string url, Dictionary<string, string>? headers = null, string jsonData = "{}")
+        public async Task<ResponseGeneralModel<string?>> PostServiceExternal(string url, Dictionary<string, string>? headers = null, string jsonData = "{}")
         {
             HttpClient httpC = new HttpClient();
 
@@ -26,9 +27,11 @@ namespace ERP.Helper.Helper
                 var temp = await response.Content.ReadAsStringAsync();
 
                 var item2222 = response.IsSuccessStatusCode;
+
+                return new ResponseGeneralModel<string>(200, temp, "");
             } catch (Exception ex)
             {
-
+                return new ResponseGeneralModel<string>(500, "", "Error al generar el pdf", ex.ToString());
             }
         }
     }

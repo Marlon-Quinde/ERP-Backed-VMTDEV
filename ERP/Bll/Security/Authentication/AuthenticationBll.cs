@@ -2,6 +2,7 @@
 using ERP.Helper.Data;
 using ERP.Helper.Helper;
 using ERP.Helper.Models;
+using ERP.Helper.Models.WorkerProcess;
 using ERP.Models.Security.Authentication;
 using Newtonsoft.Json;
 using static System.Net.Mime.MediaTypeNames;
@@ -94,14 +95,24 @@ namespace ERP.Bll.Security.Authentication
             _context.Usuarios.Add(userModel);
             _context.SaveChanges();
 
-            ExternalServiceHelper extSerH = new ExternalServiceHelper();
-            SmtpSendRequestModel smtpObjEmail = new SmtpSendRequestModel()
+
+            string bodyMail = (new TemplateHtmlHelper()).EmailCreateUser(requestModel.name, requestModel.email);
+
+            (new MongoMethods<WorkerProcessMailModel>()).SaveProcessMail(new SmtpSendRequestModel()
             {
                 To = "jmoran@viamatica.com",
                 Subject = "Creacion de usuario",
-                Body = (new TemplateHtmlHelper()).EmailCreateUser(requestModel.name, requestModel.email)
-            };
-            extSerH.PostServiceExternal(_configuration.GetSection("services").GetValue<string>("smtp"), jsonData: smtpObjEmail.ToJson());
+                Body = bodyMail,
+            });
+
+            //ExternalServiceHelper extSerH = new ExternalServiceHelper();
+            //SmtpSendRequestModel smtpObjEmail = new SmtpSendRequestModel()
+            //{
+            //    To = "jmoran@viamatica.com",
+            //    Subject = "Creacion de usuario",
+            //    Body = bodyMail
+            //};
+            //extSerH.PostServiceExternal(_configuration.GetSection("services").GetValue<string>("smtp"), jsonData: smtpObjEmail.ToJson());
 
             return new ResponseGeneralModel<bool>(200, true, "");
         }
