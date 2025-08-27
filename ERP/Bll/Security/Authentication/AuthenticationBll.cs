@@ -12,7 +12,8 @@ namespace ERP.Bll.Security.Authentication
     {
         BaseErpContext _context;
         IConfiguration _configuration;
-        public AuthenticationBll(BaseErpContext context, IConfiguration configuration) {
+        public AuthenticationBll(BaseErpContext context, IConfiguration configuration)
+        {
             _context = context;
             _configuration = configuration;
         }
@@ -49,10 +50,13 @@ namespace ERP.Bll.Security.Authentication
             {
                 return new ResponseGeneralModel<LoginResponseModel?>(404, null, MessageHelper.loginIncorrect);
             }
-
+            var roles = (from ur in _context.UsuarioRols
+                         join r in _context.Rols on ur.RolId equals r.RolId
+                         where ur.UsuId == dataUs.us.UsuId
+                         select r.RolDescripcion).ToList();
             SessionModel sessionModel = new SessionModel(dataUs.us.UsuId, dataUs.us.UsuNombre);
 
-            ResponseGeneralModel<LoginResponseModel?> jwt = (new MethodsHelper<LoginResponseModel?>()).GenerateJwtSession(sessionModel);
+            ResponseGeneralModel<LoginResponseModel?> jwt = (new MethodsHelper<LoginResponseModel?>()).GenerateJwtSession(sessionModel, roles);
             if (jwt.code != 200) return jwt;
 
             LoginResponseModel loginModel = new LoginResponseModel();
@@ -60,6 +64,8 @@ namespace ERP.Bll.Security.Authentication
             loginModel.name = dataUs.us.UsuNombre;
             loginModel.companyName = dataUs.comp.EmpresaNombre;
             loginModel.jwt = jwt.message;
+            loginModel.roles = roles;
+
 
             return new ResponseGeneralModel<LoginResponseModel?>(200, loginModel, "");
         }
@@ -67,7 +73,7 @@ namespace ERP.Bll.Security.Authentication
         public ResponseGeneralModel<bool> Register(RegisterRequestModel requestModel)
         {
             Usuario? usuarioExist = _context.Usuarios.FirstOrDefault((item) => item.Email == requestModel.email);
-            if(usuarioExist != null)
+            if (usuarioExist != null)
             {
                 return new ResponseGeneralModel<bool>(400, false, MessageHelper.registerErrorExist);
             }

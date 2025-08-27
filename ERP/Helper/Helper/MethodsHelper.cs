@@ -58,7 +58,7 @@ namespace ERP.Helper.Helper
             return (new MethodsHelper<T>()).DesencryptDataByMethod("passUser", text);
         }
 
-        public ResponseGeneralModel<T> GenerateJwtSession(SessionModel model)
+        public ResponseGeneralModel<T> GenerateJwtSession(SessionModel model, List<string> roles)
         {
             IConfigurationSection section = GetConfiguration().GetSection("jwtSession");
 
@@ -70,6 +70,13 @@ namespace ERP.Helper.Helper
                 Audience: section.GetValue<string>("audience"),
                 DurationSec: section.GetValue<int>("durationSec")
             );
+
+            var payload = new
+            {
+                model.id,
+                model.name,
+                Roles = roles 
+            };
 
             string dataJwt = JsonConvert.SerializeObject(model);
 

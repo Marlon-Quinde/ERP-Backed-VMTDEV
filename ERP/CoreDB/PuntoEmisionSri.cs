@@ -30,4 +30,10 @@ public partial class PuntoEmisionSri
     public virtual Empresa? Empresa { get; set; }
 
     public virtual Sucursal? Sucursal { get; set; }
+    // Agrega esta propiedad de navegación a la clase PuntoEmisionSri
+    public virtual PuntoVentum? PuntoVentum { get; set; }
+    internal int ToUpper()
+    {
+        throw new NotImplementedException();
+    }
 }

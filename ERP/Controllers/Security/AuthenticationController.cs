@@ -26,7 +26,8 @@ namespace ERP.Controllers.Security
             try
             {
                 return bll.Login(requestModel);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return new ResponseGeneralModel<LoginResponseModel?>(500, null, MessageHelper.errorGeneral, ex.ToString());
             }

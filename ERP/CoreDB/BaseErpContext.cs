@@ -5,8 +5,12 @@ using Microsoft.Extensions.Configuration;
 
 namespace ERP.CoreDB;
 
+
 public partial class BaseErpContext : DbContext
 {
+    public BaseErpContext()
+    {
+    }
 
     public BaseErpContext(DbContextOptions<BaseErpContext> options)
         : base(options)
@@ -66,6 +70,10 @@ public partial class BaseErpContext : DbContext
     public virtual DbSet<UsuarioPermiso> UsuarioPermisos { get; set; }
 
     public virtual DbSet<UsuarioRol> UsuarioRols { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=localhost;Database=BASE_ERP;Trusted_Connection=True;TrustServerCertificate=Yes");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -132,7 +140,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<Ciudad>(entity =>
         {
-            entity.HasKey(e => e.CiudadId).HasName("PK__CIUDAD__AA0ADB670C001CF9");
+            entity.HasKey(e => e.CiudadId).HasName("PK__CIUDAD__AA0ADB6776039AA5");
 
             entity.ToTable("CIUDAD");
 
@@ -162,7 +170,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<Cliente>(entity =>
         {
-            entity.HasKey(e => e.ClienteId).HasName("PK__CLIENTE__47E34D64738ABCE9");
+            entity.HasKey(e => e.ClienteId).HasName("PK__CLIENTE__47E34D6434EB488F");
 
             entity.ToTable("CLIENTE");
 
@@ -258,7 +266,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<FormaPago>(entity =>
         {
-            entity.HasKey(e => e.FpagoId).HasName("PK__FORMA_PA__5507F78754BA1969");
+            entity.HasKey(e => e.FpagoId).HasName("PK__FORMA_PA__5507F787032C1BA5");
 
             entity.ToTable("FORMA_PAGO");
 
@@ -298,7 +306,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<Industrium>(entity =>
         {
-            entity.HasKey(e => e.IndustriaId).HasName("PK__INDUSTRI__8558EAC6CC91D945");
+            entity.HasKey(e => e.IndustriaId).HasName("PK__INDUSTRI__8558EAC67FDC0963");
 
             entity.ToTable("INDUSTRIA");
 
@@ -344,7 +352,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<Modulo>(entity =>
         {
-            entity.HasKey(e => e.ModuloId).HasName("PK__MODULO__372E6251F6CDCD1D");
+            entity.HasKey(e => e.ModuloId).HasName("PK__MODULO__372E6251EC0BE633");
 
             entity.ToTable("MODULO");
 
@@ -368,7 +376,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<MovimientoCab>(entity =>
         {
-            entity.HasKey(e => e.MovicabId).HasName("PK__MOVIMIEN__57E1745C82591553");
+            entity.HasKey(e => e.MovicabId).HasName("PK__MOVIMIEN__57E1745CB55851AF");
 
             entity.ToTable("MOVIMIENTO_CAB");
 
@@ -441,7 +449,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<MovimientoDetPago>(entity =>
         {
-            entity.HasKey(e => e.MovidetPagoId).HasName("PK__MOVIMIEN__4EA9F6FAA8C0C8FB");
+            entity.HasKey(e => e.MovidetPagoId).HasName("PK__MOVIMIEN__4EA9F6FA0F1F10B4");
 
             entity.ToTable("MOVIMIENTO_DET_PAGOS");
 
@@ -489,7 +497,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<MovimientoDetProducto>(entity =>
         {
-            entity.HasKey(e => e.MovidetProdId).HasName("PK__MOVIMIEN__39F20EB4AF1A965C");
+            entity.HasKey(e => e.MovidetProdId).HasName("PK__MOVIMIEN__39F20EB4672C8D41");
 
             entity.ToTable("MOVIMIENTO_DET_PRODUCTO");
 
@@ -525,7 +533,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<Opcion>(entity =>
         {
-            entity.HasKey(e => e.OpcionId).HasName("PK__OPCION__FFA6A8F8B77F7F10");
+            entity.HasKey(e => e.OpcionId).HasName("PK__OPCION__FFA6A8F88ED80DF6");
 
             entity.ToTable("OPCION");
 
@@ -555,7 +563,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<Pai>(entity =>
         {
-            entity.HasKey(e => e.PaisId).HasName("PK__PAIS__C050735E5D81BF35");
+            entity.HasKey(e => e.PaisId).HasName("PK__PAIS__C050735E3E7831CC");
 
             entity.ToTable("PAIS");
 
@@ -618,7 +626,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<Proveedor>(entity =>
         {
-            entity.HasKey(e => e.ProvId).HasName("PK__PROVEEDO__435F53263E1ED6A1");
+            entity.HasKey(e => e.ProvId).HasName("PK__PROVEEDO__435F53269CD683AD");
 
             entity.ToTable("PROVEEDOR");
 
@@ -659,7 +667,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<PuntoEmisionSri>(entity =>
         {
-            entity.HasKey(e => e.PuntoEmisionId).HasName("PK__PUNTO_EM__68CB08A37184BC4C");
+            entity.HasKey(e => e.PuntoEmisionId).HasName("PK__PUNTO_EM__68CB08A3A5FBFFA7");
 
             entity.ToTable("PUNTO_EMISION_SRI");
 
@@ -737,7 +745,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<Rol>(entity =>
         {
-            entity.HasKey(e => e.RolId).HasName("PK__ROL__CF32E44327B5AA06");
+            entity.HasKey(e => e.RolId).HasName("PK__ROL__CF32E443DD3F645B");
 
             entity.ToTable("ROL");
 
@@ -764,7 +772,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<Stock>(entity =>
         {
-            entity.HasKey(e => e.StockId).HasName("PK__STOCK__E8666862AF5270B5");
+            entity.HasKey(e => e.StockId).HasName("PK__STOCK__E8666862AE9C2EE5");
 
             entity.ToTable("STOCK");
 
@@ -836,7 +844,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<TarjetaCredito>(entity =>
         {
-            entity.HasKey(e => e.TarjetacredId).HasName("PK__TARJETA___09F7CCDFFF0F06A6");
+            entity.HasKey(e => e.TarjetacredId).HasName("PK__TARJETA___09F7CCDF1BE7C3E1");
 
             entity.ToTable("TARJETA_CREDITO");
 
@@ -865,7 +873,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<TipoMovimiento>(entity =>
         {
-            entity.HasKey(e => e.TipomovId).HasName("PK__TIPO_MOV__C15805167DE43343");
+            entity.HasKey(e => e.TipomovId).HasName("PK__TIPO_MOV__C15805163CC8FA0D");
 
             entity.ToTable("TIPO_MOVIMIENTO");
 
@@ -890,27 +898,25 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.UsuId).HasName("PK__USUARIO__430A673C8752C664");
+            entity.HasKey(e => e.UsuId).HasName("PK__USUARIO__430A673CAA6098EC");
 
             entity.ToTable("USUARIO");
 
             entity.Property(e => e.UsuId)
                 .ValueGeneratedNever()
                 .HasColumnName("usu_id");
+            entity.Property(e => e.Clave)
+                .HasMaxLength(255)
+                .HasDefaultValue("");
+            entity.Property(e => e.Email)
+                .HasMaxLength(255)
+                .HasColumnName("email");
             entity.Property(e => e.EmpresaId).HasColumnName("empresa_id");
             entity.Property(e => e.Estado).HasColumnName("estado");
             entity.Property(e => e.FechaHoraAct)
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("fecha_hora_act");
-            entity.Property(e => e.Clave)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("clave");
-            entity.Property(e => e.Email)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("email");
             entity.Property(e => e.FechaHoraReg)
                 .HasMaxLength(255)
                 .IsUnicode(false)
@@ -925,7 +931,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<UsuarioPermiso>(entity =>
         {
-            entity.HasKey(e => e.PermisoId).HasName("PK__USUARIO___60B569CD3A08369B");
+            entity.HasKey(e => e.PermisoId).HasName("PK__USUARIO___60B569CD03E621DA");
 
             entity.ToTable("USUARIO_PERMISO");
 
@@ -958,7 +964,7 @@ public partial class BaseErpContext : DbContext
 
         modelBuilder.Entity<UsuarioRol>(entity =>
         {
-            entity.HasKey(e => e.UsuRolId).HasName("PK__USUARIO___7F1C7DEE222D54F9");
+            entity.HasKey(e => e.UsuRolId).HasName("PK__USUARIO___7F1C7DEE136FAC6B");
 
             entity.ToTable("USUARIO_ROL");
 

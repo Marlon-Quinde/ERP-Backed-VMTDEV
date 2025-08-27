@@ -1,7 +1,17 @@
+<<<<<<< Updated upstream
 using ERP.Bll.Invoice;
+=======
+using ERP.Bll.Empresa;
+using ERP.Bll.Location;
+using ERP.Bll.PointOfIssueBll;
+using ERP.Bll.PointSaleBll;
+using ERP.Bll.PuntoVenta;
+using ERP.Bll.Role;
+>>>>>>> Stashed changes
 using ERP.Bll.Security.Authentication;
 using ERP.Bll.Security.Profile;
 using ERP.Bll.User;
+using ERP.Bll.UserRole;
 using ERP.CoreDB;
 using ERP.Filters;
 using ERP.Helper.Helper.TemplateView;
@@ -28,7 +38,18 @@ builder.Services.AddScoped<ITemplateViewHelper, TemplateViewHelper>();
 builder.Services.AddScoped<IAuthenticationBll, AuthenticationBll>();
 builder.Services.AddScoped<IProfileBll, ProfileBll>();
 builder.Services.AddScoped<IUserBll, UserBll>();
+<<<<<<< Updated upstream
 builder.Services.AddScoped<IInvoiceBll, InvoiceBll>();
+=======
+builder.Services.AddScoped<IUserRoleBll, UserRoleBll>();
+builder.Services.AddScoped<IPaisBll, PaisBll>();
+builder.Services.AddScoped<IClientBll, ClientBll>();
+builder.Services.AddScoped<IRoleBll, RoleBll>();
+builder.Services.AddScoped<IPointIssueBll, PointIssueBll>();
+builder.Services.AddScoped<IPointSaleBll, PointSaleBll>();
+
+
+>>>>>>> Stashed changes
 // :: Interfaces - aplicativo (fin)
 
 
