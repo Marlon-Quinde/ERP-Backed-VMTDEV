@@ -78,15 +78,38 @@ namespace ERP.Bll.Invoice
                 products = prodctPdf
             });
 
-            ExternalServiceHelper extSerH = new ExternalServiceHelper();
-            ResponseGeneralModel<string?> respPdf = await extSerH.PostServiceExternal(_configuration.GetSection("services").GetValue<string>("pdf"), jsonData: JsonConvert.SerializeObject(new
+            (new MongoMethods<WorkerProcessMailModel>()).SaveProcessPdfWithMail(new PdfWithMailWorkerProcessModel
             {
-                html = renderPdf,
-            }));
-            if (respPdf.code != 200) return respPdf;
+                mail = new SmtpSendRequestModel()
+                {
+                    To = "jmoran@viamatica.com",
+                    Subject = "Project Invoice SMTP",
+                    Body = "Factura creada",
+                    Files = new List<SmtpSendRequestModel_File>()
+                    {
+                        new SmtpSendRequestModel_File()
+                        {
+                            Name = "Factura.pdf",
+                            TypeFile = "application/pdf",
+                            Base64 = ""
+                        }
+                    }
+                },
+                pdf = new PdfWithMailWorkerProcessModel_Pdf
+                {
+                    html = renderPdf
+                },
+            });
 
-            ResponseExternalServiceModel<string?> respPdfServ = ResponseExternalServiceModel<string?>.FromJson(respPdf.data);
-            if (!respPdfServ.IsTrue) return new ResponseGeneralModel<string?>(500, respPdfServ.Message);
+            //ExternalServiceHelper extSerH = new ExternalServiceHelper();
+            //ResponseGeneralModel<string?> respPdf = await extSerH.PostServiceExternal(_configuration.GetSection("services").GetValue<string>("pdf"), jsonData: JsonConvert.SerializeObject(new
+            //{
+            //    html = renderPdf,
+            //}));
+            //if (respPdf.code != 200) return respPdf;
+
+            //ResponseExternalServiceModel<string?> respPdfServ = ResponseExternalServiceModel<string?>.FromJson(respPdf.data);
+            //if (!respPdfServ.IsTrue) return new ResponseGeneralModel<string?>(500, respPdfServ.Message);
 
 
             // Process Mongo
@@ -105,22 +128,22 @@ namespace ERP.Bll.Invoice
                     }
                 }
             });
-            */
-            (new MongoMethods<WorkerProcessMailModel>()).SaveProcessMail(new SmtpSendRequestModel()
-            {
-                To = "jmoran@viamatica.com",
-                Subject = "Project Invoice SMTP",
-                Body = "Factura creada",
-                Files = new List<SmtpSendRequestModel_File>()
-                {
-                    new SmtpSendRequestModel_File()
-                    {
-                        Name = "Factura.pdf",
-                        TypeFile = "application/pdf",
-                        Base64 = respPdfServ.Data
-                    }
-                }
-            });
+            //*/
+            //(new MongoMethods<WorkerProcessMailModel>()).SaveProcessMail(new SmtpSendRequestModel()
+            //{
+            //    To = "jmoran@viamatica.com",
+            //    Subject = "Project Invoice SMTP",
+            //    Body = "Factura creada",
+            //    Files = new List<SmtpSendRequestModel_File>()
+            //    {
+            //        new SmtpSendRequestModel_File()
+            //        {
+            //            Name = "Factura.pdf",
+            //            TypeFile = "application/pdf",
+            //            Base64 = respPdfServ.Data
+            //        }
+            //    }
+            //});
             // .......
 
 

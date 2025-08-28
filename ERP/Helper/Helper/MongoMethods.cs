@@ -26,23 +26,13 @@ namespace ERP.Helper.Helper
 
         public void SaveProcessMail(SmtpSendRequestModel model)
         {
-            /*SaveProcess("mail", JsonConvert.DeserializeObject<object>(JsonConvert.SerializeObject(model)) ?? new
-            {
+            SaveProcess("mail", model.ToObject());
+        }
 
-            });*/
-            SaveProcess("mail", new
-            {
-                to = model.To,
-                subject = model.Subject,
-                body = model.Body,
-                files = model.Files.Select( x => (object) new {
-                    x.Name,
-                    x.Base64,
-                    x.TypeFile,
-                }).ToList(),
-            });
-            //SaveProcess("mail", JsonConvert.DeserializeObject(model.ToJson()));
-        } 
+        public void SaveProcessPdfWithMail(PdfWithMailWorkerProcessModel model)
+        {
+            SaveProcess("pdf-mail", model.ToObject());
+        }
 
         public void SaveProcess(string proc, object data)
         {

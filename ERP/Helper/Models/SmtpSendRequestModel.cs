@@ -9,6 +9,7 @@
 namespace ERP.Helper.Models
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
 
     using System.Globalization;
@@ -26,7 +27,7 @@ namespace ERP.Helper.Models
         [JsonProperty("body")]
         public string Body { get; set; }
         [JsonProperty("files")]
-        public List<SmtpSendRequestModel_File> Files { get; set; }
+        public List<SmtpSendRequestModel_File> Files { get; set; } = null;
     }
 
     public partial class SmtpSendRequestModel_File
@@ -44,5 +45,30 @@ namespace ERP.Helper.Models
     public partial class SmtpSendRequestModel
     {
         public static SmtpSendRequestModel FromJson(string json) => JsonConvert.DeserializeObject<SmtpSendRequestModel>(json, ERP.Helper.Models.Converter.Settings);
+    }
+
+    public partial class SmtpSendRequestModel
+    {
+        public object ToObject()
+        {
+            return new
+            {
+                to = To,
+                subject = Subject,
+                body = Body,
+                files = Files == null ? null : Files.Select(x => (object)new
+                {
+                    x.Name,
+                    x.Base64,
+                    x.TypeFile,
+                }).ToList(),
+            };
+        }
+
+
+        public SmtpSendRequestModel FromObject(object data)
+        {
+            return JsonConvert.DeserializeObject<SmtpSendRequestModel>(JsonConvert.SerializeObject(data));
+        }
     }
 }

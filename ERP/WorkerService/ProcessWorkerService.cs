@@ -53,6 +53,22 @@ namespace ERP.WorkerService
                                             (new MongoMethods<string>()).DeleteProcessWorker(exist.id);
                                         }
                                         break;
+                                    case "pdf-mail":
+                                        PdfWithMailWorkerProcessModel pdfObj = new PdfWithMailWorkerProcessModel().FromObject(exist.data);
+                                        ExternalServiceHelper extSerHPdf = new ExternalServiceHelper();
+                                        ResponseGeneralModel<string?> respPdf = await extSerHPdf.PostServiceExternal(_configuration.GetSection("services").GetValue<string>("pdf"), jsonData: JsonConvert.SerializeObject(pdfObj.pdf));
+                                        if (respPdf.code == 200)
+                                        {
+                                            ResponseExternalServiceModel<string?> respPdfServ = ResponseExternalServiceModel<string?>.FromJson(respPdf.data);
+                                            if (respPdfServ.IsTrue)
+                                            {
+                                                SmtpSendRequestModel mailReq = pdfObj.mail;
+                                                mailReq.Files[0].Base64 = respPdfServ.Data;
+                                                (new MongoMethods<string>()).SaveProcessMail(mailReq);
+                                                (new MongoMethods<string>()).DeleteProcessWorker(exist.id);
+                                            }
+                                        }
+                                        break;
                                 }
                             }
 
