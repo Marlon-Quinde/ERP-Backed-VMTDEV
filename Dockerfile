@@ -18,7 +18,7 @@ WORKDIR /app
 COPY --from=build /app/publish .
 
 # Exponer puerto (ajústalo si tu app corre en otro puerto)
-EXPOSE 8080
+EXPOSE 5000
 
 # Ejecutar aplicación
 ENTRYPOINT ["dotnet", "ERP.dll"]
