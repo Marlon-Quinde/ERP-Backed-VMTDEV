@@ -58,7 +58,13 @@ app.UseCors("AllowDev");
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(
+    c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mi API v1");
+    c.RoutePrefix = "swagger";
+}
+);
 
 //app.UseHttpsRedirection();
 
