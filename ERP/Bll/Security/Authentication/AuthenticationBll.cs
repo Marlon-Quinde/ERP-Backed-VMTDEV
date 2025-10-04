@@ -90,14 +90,14 @@ namespace ERP.Bll.Security.Authentication
             _context.SaveChanges();
 
 
-            string bodyMail = (new TemplateHtmlHelper()).EmailCreateUser(requestModel.name, requestModel.email);
+            //string bodyMail = (new TemplateHtmlHelper()).EmailCreateUser(requestModel.name, requestModel.email);
 
-            (new MongoMethods<WorkerProcessMailModel>()).SaveProcessMail(new SmtpSendRequestModel()
-            {
-                To = "jmoran@viamatica.com",
-                Subject = "Creacion de usuario",
-                Body = bodyMail,
-            });
+            //(new MongoMethods<WorkerProcessMailModel>()).SaveProcessMail(new SmtpSendRequestModel()
+            //{
+            //    To = "jmoran@viamatica.com",
+            //    Subject = "Creacion de usuario",
+            //    Body = bodyMail,
+            //});
 
             //ExternalServiceHelper extSerH = new ExternalServiceHelper();
             //SmtpSendRequestModel smtpObjEmail = new SmtpSendRequestModel()
