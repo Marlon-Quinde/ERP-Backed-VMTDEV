@@ -21,6 +21,7 @@ using ERP.Bll.Security.Role;
 using ERP.Bll.Security.User;
 using ERP.CoreDB;
 using ERP.Filters;
+using ERP.WorkerService;
 using Microsoft.EntityFrameworkCore;
 
 
