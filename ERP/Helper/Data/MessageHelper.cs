@@ -2,7 +2,7 @@
 {
     public class MessageHelper
     {
-        public readonly static string errorParamsGeneral = "Parametros incorrectos";
+        public readonly static string errorParamsGeneral = "Los campos deben tener información válida";
 
         public readonly static string errorGeneral = "Ocurrio un error, intente más tarde";
 
