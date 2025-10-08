@@ -1,22 +1,28 @@
-<<<<<<< Updated upstream
-using ERP.Bll.Invoice;
-=======
-using ERP.Bll.Empresa;
+using ERP.Bll.Commercial.Customer;
+using ERP.Bll.Commercial.Supplier;
+using ERP.Bll.Company.Branch;
+using ERP.Bll.Company.Company;
+using ERP.Bll.Company.Point;
+using ERP.Bll.Company.Warehouse;
+using ERP.Bll.Invoice.MovementInvoice;
 using ERP.Bll.Location;
-using ERP.Bll.PointOfIssueBll;
-using ERP.Bll.PointSaleBll;
-using ERP.Bll.PuntoVenta;
-using ERP.Bll.Role;
->>>>>>> Stashed changes
+using ERP.Bll.Pay;
+using ERP.Bll.Products.Brand;
+using ERP.Bll.Products.Category;
+using ERP.Bll.Products.Industry;
+using ERP.Bll.Products.Product;
+using ERP.Bll.Products.Stock;
+using ERP.Bll.Products.Tax;
 using ERP.Bll.Security.Authentication;
+using ERP.Bll.Security.Module;
+using ERP.Bll.Security.Option;
 using ERP.Bll.Security.Profile;
-using ERP.Bll.User;
-using ERP.Bll.UserRole;
+using ERP.Bll.Security.Role;
+using ERP.Bll.Security.User;
 using ERP.CoreDB;
 using ERP.Filters;
-using ERP.Helper.Helper.TemplateView;
-using ERP.WorkerService;
 using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,35 +39,42 @@ builder.Services.AddDbContext<BaseErpContext>(options =>
     options.UseSqlServer(builder.Configuration.GetSection("ConnectionDB").Get<string>());
 });
 // :: Interfaces - aplicativo (inicio)
-// Aplicativo
-builder.Services.AddScoped<ITemplateViewHelper, TemplateViewHelper>();
 // Bll
 builder.Services.AddScoped<IAuthenticationBll, AuthenticationBll>();
 builder.Services.AddScoped<IProfileBll, ProfileBll>();
 builder.Services.AddScoped<IUserBll, UserBll>();
-<<<<<<< Updated upstream
-builder.Services.AddScoped<IInvoiceBll, InvoiceBll>();
-=======
 builder.Services.AddScoped<IUserRoleBll, UserRoleBll>();
-builder.Services.AddScoped<IPaisBll, PaisBll>();
-builder.Services.AddScoped<IClientBll, ClientBll>();
 builder.Services.AddScoped<IRoleBll, RoleBll>();
-builder.Services.AddScoped<IPointIssueBll, PointIssueBll>();
-builder.Services.AddScoped<IPointSaleBll, PointSaleBll>();
+builder.Services.AddScoped<IUserPermissionBll, UserPermissionBll>();
+
+builder.Services.AddScoped<ICompanyBll, CompanyBll>();
+builder.Services.AddScoped<IBranchBll, BranchBll>();
+builder.Services.AddScoped<IPointBll, PointBll>();
+builder.Services.AddScoped<IWarehouseBll, WarehouseBll>();
+
+builder.Services.AddScoped<ICustomerBll, CustomerBll>();
+builder.Services.AddScoped<ISupplierBll, SupplierBll>();
+builder.Services.AddScoped<IMovementInvoiceBll, MovementInvoiceBll>();
+
+builder.Services.AddScoped<ILocationBll, LocationBll>();
+builder.Services.AddScoped<IFormPayBll, FormPayBll>();
+
+builder.Services.AddScoped<IBrandBll, BrandBll>();
+builder.Services.AddScoped<ICategoryBll, CategoryBll>();
+builder.Services.AddScoped<IIndustryBll, IndustryBll>();
+builder.Services.AddScoped<ITaxBll, TaxBll>();
+builder.Services.AddScoped<IProductBll, ProductBll>();
+builder.Services.AddScoped<IStockBll, StockBll>();
+builder.Services.AddScoped<IOptionBll, OptionBll>();
+builder.Services.AddScoped<IModuleBll, ModuleBll>();
 
 
->>>>>>> Stashed changes
 // :: Interfaces - aplicativo (fin)
-
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddControllersWithViews();
-
 // Filter
 builder.Services.AddScoped<SessionUserFilter>();
-
-builder.Services.AddHostedService<ProcessWorkerService>();
 
 var app = builder.Build();
 

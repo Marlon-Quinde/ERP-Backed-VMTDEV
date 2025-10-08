@@ -1,39 +1,37 @@
-﻿
+﻿using Ejercicio_estructurado.Helpers.Helper;
 using Ejercicio_estructurado.Helpers.Vars;
 using ERP.Helper.Data;
 using ERP.Helper.Models;
 using ERP.Models.Security.Profile;
-using HelperGeneral.Helper;
-using HelperGeneral.Models;
 
 namespace ERP.Validate.Security
 {
     public class ProfileValidate
     {
-        public ResponseData<string?> ChangePasswordUser(ChangePasswordRequestModel model)
+        public ResponseGeneralModel<string?> ChangePasswordUser(ChangePasswordRequestModel model)
         {
             ValidateHelper<string?> validaH = new ValidateHelper<string?>();
 
-            ResponseData<string?> valOldPass = validaH.ValidResp(model.oldPassword, "oldPassword", ListRegExp: new List<string>() { VarHelper.regExParamString });
-            if (valOldPass.isTrue) return valOldPass;
-            ResponseData<string?> valNewPass = validaH.ValidResp(model.newPassword, "newPassword", ListRegExp: new List<string>() { VarHelper.regExParamString });
-            if (valNewPass.isTrue) return valNewPass;
-            ResponseData<string?> valRepNewPass = validaH.ValidResp(model.repeatNewPassword, "repeatNewPassword", ListRegExp: new List<string>() { VarHelper.regExParamString });
-            if (valRepNewPass.isTrue) return valRepNewPass;
+            ResponseGeneralModel<string?> valOldPass = validaH.ValidResp(model.oldPassword, "oldPassword", ListRegExp: new List<string>() { VarHelper.regExParamString });
+            if (valOldPass.code != 200) return valOldPass;
+            ResponseGeneralModel<string?> valNewPass = validaH.ValidResp(model.newPassword, "newPassword", ListRegExp: new List<string>() { VarHelper.regExParamString });
+            if (valNewPass.code != 200) return valNewPass;
+            ResponseGeneralModel<string?> valRepNewPass = validaH.ValidResp(model.repeatNewPassword, "repeatNewPassword", ListRegExp: new List<string>() { VarHelper.regExParamString });
+            if (valRepNewPass.code != 200) return valRepNewPass;
 
-            if (model.newPassword != model.repeatNewPassword) return new ResponseData<string?>(MessageHelper.profileChangePasswordErrorNotEqualsPass, MessageHelper.profileChangePasswordErrorNotEqualsPass);
+            if (model.newPassword != model.repeatNewPassword) return new ResponseGeneralModel<string?>(MessageHelper.profileChangePasswordErrorNotEqualsPass, MessageHelper.profileChangePasswordErrorNotEqualsPass, 400);
 
-            return new ResponseData<string?>();
+            return new ResponseGeneralModel<string?>(200, "");
         }
 
-        public ResponseData<string?> ChangeNameUser(ChangeNameUserRequestModel model)
+        public ResponseGeneralModel<string?> ChangeNameUser(ChangeNameUserRequestModel model)
         {
             ValidateHelper<string?> validaH = new ValidateHelper<string?>();
 
-            ResponseData<string?> nameUser = validaH.ValidResp(model.userName, "userName", ListRegExp: new List<string>() { VarHelper.regExParamString });
-            if (nameUser.isTrue) return nameUser;
+            ResponseGeneralModel<string?> nameUser = validaH.ValidResp(model.userName, "userName", ListRegExp: new List<string>() { VarHelper.regExParamString });
+            if (nameUser.code != 200) return nameUser;
 
-            return new ResponseData<string?>();
+            return new ResponseGeneralModel<string?>(200, "");
         }
     }
 }

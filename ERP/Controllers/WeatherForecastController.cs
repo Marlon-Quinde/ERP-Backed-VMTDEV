@@ -1,10 +1,9 @@
-using ERP.Bll.User;
+using ERP.Bll.Security.User;
 using ERP.CoreDB;
 using ERP.Filters;
 using ERP.Helper.Data;
 using ERP.Helper.Helper;
 using ERP.Helper.Models;
-using ERP.Models.test;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Data.Common;
@@ -56,56 +55,56 @@ namespace ERP.Controllers
         }
 
 
-        [HttpPost("testDbCommit")]
-        public ResponseGeneralModel<string?> testDbCommit(TestDbCommitRequestModel requestModel)
-        {
-            try
-            {
-                _context.Database.BeginTransaction();
-                Pai? paisM = _context.Pais.OrderByDescending(item => item.PaisId).FirstOrDefault();
-                int idPais = (paisM == null) ? 1 : paisM.PaisId + 1;
-                Pai? paisFind = _context.Pais.FirstOrDefault(item => item.PaisNombre.ToUpper() == requestModel.namePais.ToUpper());
-                if (paisFind == null)
-                {
-                    paisFind = new Pai()
-                    {
-                        PaisId = idPais,
-                        PaisNombre = requestModel.namePais,
-                        Estado = 1,
-                        FechaHoraAct = DateTime.Now
-                    };
-                    _context.Pais.Add(paisFind);
-                    _context.SaveChanges();
-                }
+        //[HttpPost("testDbCommit")]
+        //public ResponseGeneralModel<string?> testDbCommit(TestDbCommitRequestModel requestModel)
+        //{
+        //    try
+        //    {
+        //        _context.Database.BeginTransaction();
+        //        Pai? paisM = _context.Pais.OrderByDescending(item => item.PaisId).FirstOrDefault();
+        //        int idPais = (paisM == null) ? 1 : paisM.PaisId + 1;
+        //        Pai? paisFind = _context.Pais.FirstOrDefault(item => item.PaisNombre.ToUpper() == requestModel.namePais.ToUpper());
+        //        if (paisFind == null)
+        //        {
+        //            paisFind = new Pai()
+        //            {
+        //                PaisId = idPais,
+        //                PaisNombre = requestModel.namePais,
+        //                Estado = 1,
+        //                FechaHoraAct = DateTime.Now
+        //            };
+        //            _context.Pais.Add(paisFind);
+        //            _context.SaveChanges();
+        //        }
 
 
-                Ciudad? cdad = _context.Ciudads.OrderByDescending(item => item.PaisId).FirstOrDefault();
-                int idCiudad = (cdad == null) ? 1 : cdad.CiudadId + 1;
-                Ciudad? cdadFind = _context.Ciudads.FirstOrDefault(item => item.CiudadNombre.ToUpper() == requestModel.nameCiudad.ToUpper());
-                if (cdadFind == null)
-                {
-                    cdadFind = new Ciudad()
-                    {
-                        CiudadId = idCiudad,
-                        PaisId = paisFind.PaisId,
-                        CiudadNombre = requestModel.nameCiudad,
-                        Estado = 1,
-                        FechaHoraAct = DateTime.Now
-                    };
-                    _context.Ciudads.Add(cdadFind);
-                    _context.SaveChanges();
-                }
+        //        Ciudad? cdad = _context.Ciudads.OrderByDescending(item => item.PaisId).FirstOrDefault();
+        //        int idCiudad = (cdad == null) ? 1 : cdad.CiudadId + 1;
+        //        Ciudad? cdadFind = _context.Ciudads.FirstOrDefault(item => item.CiudadNombre.ToUpper() == requestModel.nameCiudad.ToUpper());
+        //        if (cdadFind == null)
+        //        {
+        //            cdadFind = new Ciudad()
+        //            {
+        //                CiudadId = idCiudad,
+        //                PaisId = paisFind.PaisId,
+        //                CiudadNombre = requestModel.nameCiudad,
+        //                Estado = 1,
+        //                FechaHoraAct = DateTime.Now
+        //            };
+        //            _context.Ciudads.Add(cdadFind);
+        //            _context.SaveChanges();
+        //        }
 
-                _context.Database.CommitTransaction();
+        //        _context.Database.CommitTransaction();
 
-                return new ResponseGeneralModel<string?>(200, "");
-            }
-            catch (Exception ex)
-            {
-                _context.Database.RollbackTransaction();
-                return new ResponseGeneralModel<string?>(500, null, "error", ex.ToString());
-            }
-        }
+        //        return new ResponseGeneralModel<string?>(200, "");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _context.Database.RollbackTransaction();
+        //        return new ResponseGeneralModel<string?>(500, null, "error", ex.ToString());
+        //    }
+        //}
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
