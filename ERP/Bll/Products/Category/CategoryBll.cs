@@ -127,5 +127,11 @@ namespace ERP.Bll.Products.Category
                  })
                 .ToList();
         }
+
+        public object? FindCategory(string id)
+        {
+            return _context.Categoria
+                 .FirstOrDefault( x => x.CategoriaId.ToString() == id );
+        }
     }
 }

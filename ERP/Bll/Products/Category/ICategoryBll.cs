@@ -11,6 +11,7 @@ namespace ERP.Bll.Products.Category
         ResponseGeneralModel<bool?> DeleteCategory(int id);
         //public List<Categorium> GetCategory();
         public object GetCategory();
+        public object FindCategory(string id);
 
 
     }

@@ -64,5 +64,18 @@ namespace ERP.Controllers.Products.Category
                 return new ResponseGeneralModel<bool?>(500, null, MessageHelper.errorGeneral, e.ToString());
             }
         }
+
+        [HttpGet("{id}")]
+        public ResponseGeneralModel<object?> FindCategory(string id)
+        {
+            try
+            {
+                return new ResponseGeneralModel<object?>(200, categoryBll.FindCategory(id), MessageHelper.CategoryCorrect);
+            }
+            catch (Exception e)
+            {
+                return new ResponseGeneralModel<object?>(500, null, MessageHelper.errorGeneral, e.ToString());
+            }
+        }
     }
 }
